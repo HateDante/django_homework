@@ -4,12 +4,6 @@ from django.forms import BaseInlineFormSet
 from .models import Article, Tag, Scope
 
 
-@admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'text', 'published_at']
-    list_filter = ['published_at', ]
-
-
 class RelationshipInlineFormset(BaseInlineFormSet):
     def clean(self):
         main_tags_count = 0
@@ -27,6 +21,13 @@ class RelationshipInline(admin.TabularInline):
     model = Scope
     extra = 2
     formset = RelationshipInlineFormset
+
+
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'text', 'published_at']
+    list_filter = ['published_at', ]
+    inlines = [RelationshipInline]
 
 
 @admin.register(Tag)
