@@ -1,5 +1,5 @@
 from django.db import models
-# from django.forms.fields import ImageField
+from django.forms.fields import ImageField
 
 
 class Sensor(models.Model):
@@ -12,4 +12,4 @@ class Measurement(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, related_name='measurements')
     # Попытка добавить изображение
-    # image = ImageField(allow_empty_file=True)
+    image = models.ImageField(allow_empty_file=True)
