@@ -6,13 +6,14 @@ from logistic.models import Product, Stock, StockProduct
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ['id', 'title', 'description', ]
 
 
 class ProductPositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = StockProduct
-        fields = "__all__"
+        fields = ['product', 'quantity', 'price', ]
+        read_only_fields = ['stock', ]
 
 
 class StockSerializer(serializers.ModelSerializer):
@@ -20,7 +21,7 @@ class StockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Stock
-        fields = ('id', 'address', 'positions',)
+        fields = ['id', 'address', 'positions', ]
 
     def create(self, validated_data):
         # достаем связанные данные для других таблиц
