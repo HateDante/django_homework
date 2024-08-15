@@ -29,13 +29,11 @@ class StockSerializer(serializers.ModelSerializer):
         # создаем склад по его параметрам
         stock = super().create(validated_data)
         for position in positions:
-            StockProduct.objects.get_or_create(
+            StockProduct.objects.create(
                 stock=stock,
                 product=position.get('product'),
-                defaults={
-                    'quantity': position.get('quantity'),
-                    'price': position.get('price')
-                },
+                quantity=position.get('quantity'),
+                price=position.get('price'),
             )
         return stock
 
