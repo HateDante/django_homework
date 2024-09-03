@@ -46,8 +46,8 @@ class AdvertisementSerializer(serializers.ModelSerializer):
             return data
         elif (self.context['view'].action == 'create'
               or (self.context['view'].action == 'partial_update' and new_status == 'OPEN')):
-            adverts = Advertisement.objects.filter(creator=user, status='OPEN')
-            if len(adverts) > 10:
+            open_adverts_count = Advertisement.objects.filter(creator=user, status='OPEN').count()
+            if open_adverts_count > 10:
                 raise ValidationError(f'You can\'t have more than 10 open advertisements. Please, close some '
                                       f'advertisements to continue.')
         return data

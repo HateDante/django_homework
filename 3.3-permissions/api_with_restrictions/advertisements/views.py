@@ -18,11 +18,8 @@ class AdvertisementViewSet(ModelViewSet):
     filterset_class = AdvertisementFilter
     lookup_fields = ['status', ]
 
-    def list(self, request, *args, **kwargs):
-        # Объявления со статусом 'DRAFT' должны быть доступны только для автора
-        queryset = self.get_queryset().filter(~Q(status='DRAFT') | Q(creator=self.request.user.id))
-        serializer = AdvertisementSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        return self.queryset.filter(~Q(status='DRAFT') | Q(creator=self.request.user.id))
 
     def get_permissions(self):
         """Получение прав для действий."""
